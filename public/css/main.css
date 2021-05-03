@@ -8,3 +8,17 @@ body {
 .sys-info {
     text-align: left;
 }
+
+
+/* For Firefox */
+
+progress::-moz-progress-bar {
+    background: green;
+}
+
+
+/* For Chrome or Safari */
+
+progress::-webkit-progress-value {
+    background: green;
+}
