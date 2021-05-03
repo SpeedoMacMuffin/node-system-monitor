@@ -1,0 +1,10 @@
+body {
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    font-size: 1em;
+}
+
+.sys-info {
+    text-align: left;
+}
