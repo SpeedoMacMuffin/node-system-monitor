@@ -5,6 +5,7 @@ const httpServer = http.createServer(app);
 const osUtils = require('node-os-utils');
 const os = require('os');
 const io = require('socket.io')(httpServer);
+const si = require('systeminformation')
 
 // View Engine
 
@@ -24,13 +25,8 @@ const cpu = osUtils.cpu;
 // USER and OS
 
 const username = os.userInfo([{ encoding: 'buffer' }]).username;
-const osInfo = osUtils.os.type().toUpperCase();
-const osVer = os.version();
-const cpuType = cpu.model();
-const host = os.hostname();
-const netSpeed = osUtils.netstat.stats();
-const drive = osUtils.drive.free()
-console.log(os.cpus()[0].speed)
+
+
 
 // SOCKET IO
 
@@ -43,8 +39,33 @@ io.on('connection', socket => {
         // RAM usage in %
         let ram = (ramUsed * 100 / Math.round(os.totalmem())).toFixed(0);
         // CPU usage in %
-        cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, username, osInfo, cpuType, host, netSpeed, drive }))
+        cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu }))
     }, 1000);
+
+    // Emit OS information
+    si.osInfo()
+        .then(osInfo => socket.emit('osInfo', { osInfo, username }))
+        .catch(error => console.error(error))
+
+    // Emit System information
+    si.system()
+        .then(sysData => socket.emit('sysInfo', sysData))
+        .catch(error => console.error(error));
+
+    // Emit CPU information
+    si.cpu()
+        .then(cpuInfo => socket.emit('cpuInfo', cpuInfo))
+        .catch(error => console.error(error));
+
+    // Emit RAM information
+    si.mem()
+        .then(ramInfo => socket.emit('ramInfo', ramInfo))
+        .catch(error => console.error(error))
+
+    // Emit Drive information
+    osUtils.drive.info()
+        .then(driveInfo => socket.emit('driveInfo', driveInfo))
+        .catch(error => console.error(error))
 });
 
 // Run the server
