@@ -12,46 +12,46 @@
 
 <body>
     <h1>Node System Monitor</h1>
-    <div class="user"></div>
+
     <div class="flex">
         <div class="one sys-info">
             <h3>General Information</h3>
+            <div class="sysmod">Model: </div>
+            <div class="platform">Network: </div>
             <div class="os">...loading</div>
-            <div class="cpuModel">...loading</div>
             <div class="host">Hostname</div>
-            <div class="net">Network: </div>
+            <div class="user"></div>
         </div>
-        <div class="one">
-            <h3>System Usage</h3>
+        <div class="one sys-info">
+            <h3>CPU</h3>
             <!-- CPU  -->
-            <label class="cpu-label" for="cpu">CPU 0 %</label>
+            <div class="brand">Brand: </div>
+            <div class="speed">Speed: </div>
+            <div class="cores">Cores: </div>
+            <label class="cpu-label" for="cpu">CPU used: 0 %</label>
             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
-            <!-- RAM  -->
-            <label class="ram-label" for="ram">RAM 0 %</label>
-            <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
-            <!-- DISK-->
-            <label class="disk-label" for="disk">Disk 0 %</label>
-            <progress class="disk-bar" id="disk" value="10" min='0' max='100'></progress>
+
         </div>
-        <div class="one">
-            <h3>System Usage</h3>
-            <!-- CPU  -->
-            <label class="cpu-label" for="cpu">CPU 0%</label>
-            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
+        <div class="one sys-info">
+            <h3>RAM</h3>
             <!-- RAM  -->
-            <label class="ram-label" for="ram">RAM 0%</label>
+            <div class="ramtotal">Total: </div>
+            <label class="ram-label" for="ram">RAM used: 0 %</label>
             <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
         </div>
-        <div class="one">
-            <h3>System Usage</h3>
-            <!-- CPU  -->
-            <label class="cpu-label" for="cpu">CPU 0%</label>
-            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
-            <!-- RAM  -->
-            <label class="ram-label" for="ram">RAM 0%</label>
-            <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
+        <div class="one sys-info">
+            <h3>Drive</h3>
+            <!-- Drive  -->
+            <div class="drivetotal">Total: </div>
+            <div class="driveused">Used: </div>
+            <div class="drivefree">Free: </div>
+            <label class="drive-label" for="drive">Drive used: 0%</label>
+            <progress class="drive-bar" id="drive" value="10" min='0' max='100'></progress>
         </div>
     </div>
+    <footer>
+        <span>Made By <a href="https://github.com/SpeedoMacMuffin/" target="_blank">Speedo MacMuffin</a></span>
+    </footer>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="./js/main.js" defer></script>
 </body>
