@@ -2,14 +2,58 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
     <title>Node System Monitor</title>
 </head>
 
 <body>
-    Hello World
+    <h1>Node System Monitor</h1>
+    <div class="user"></div>
+    <div class="flex">
+        <div class="one sys-info">
+            <h3>General Information</h3>
+            <div class="os">...loading</div>
+            <div class="cpuModel">...loading</div>
+            <div class="host">Hostname</div>
+            <div class="net">Network: </div>
+        </div>
+        <div class="one">
+            <h3>System Usage</h3>
+            <!-- CPU  -->
+            <label class="cpu-label" for="cpu">CPU 0 %</label>
+            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
+            <!-- RAM  -->
+            <label class="ram-label" for="ram">RAM 0 %</label>
+            <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
+            <!-- DISK-->
+            <label class="disk-label" for="disk">Disk 0 %</label>
+            <progress class="disk-bar" id="disk" value="10" min='0' max='100'></progress>
+        </div>
+        <div class="one">
+            <h3>System Usage</h3>
+            <!-- CPU  -->
+            <label class="cpu-label" for="cpu">CPU 0%</label>
+            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
+            <!-- RAM  -->
+            <label class="ram-label" for="ram">RAM 0%</label>
+            <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
+        </div>
+        <div class="one">
+            <h3>System Usage</h3>
+            <!-- CPU  -->
+            <label class="cpu-label" for="cpu">CPU 0%</label>
+            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
+            <!-- RAM  -->
+            <label class="ram-label" for="ram">RAM 0%</label>
+            <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </body>
 
 </html>
