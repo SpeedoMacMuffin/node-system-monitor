@@ -18,26 +18,39 @@ const cores = document.querySelector('.cores');
 const ramtotal = document.querySelector('.ramtotal');
 const drivetotal = document.querySelector('.drivetotal');
 const driveused = document.querySelector('.driveused');
-const drivefree = document.querySelector('.drivefree')
+const drivefree = document.querySelector('.drivefree');
+
+
+let ramData = [];
+const timeLabel = []
 
 // ON CONNECT EVENT
 socket.on('connect', () => {
     console.log('Connected');
 });
 // ON RAM USAGE EVENT
-socket.on('ram-usage', ({ ram, cpu }) => {
+socket.on('ramUsage', (info) => {
     // Set ram label
-    labelRam.innerHTML = `<span>RAM used: ${ram} % </span>`;
+    usedMemRel = (100 - info.freeMemPercentage).toFixed(2)
+    labelRam.innerHTML = `<span>RAM used: ${usedMemRel} % </span>`;
     // Set Ram bar
-    progRam.value = ram;
+    progRam.value = usedMemRel;
+
+    // Set Ram Graph and Values
+    ramData.push(usedMemRel)
+    console.log(ramData)
+    if (ramData.length > 9) {
+        ramData.shift()
+    }
+});
+// ON CPU USAGE EVENT
+socket.on('cpuUsage', (cpu) => {
     // Set cpu label
     labelCpu.innerHTML = `<span>CPU used: ${cpu} %</span>`
         // Set cpu bar
     progCpu.value = cpu;
-    // Set disk label
-    // labelDisk.innerHTML = `<span>Disk ${drive.total} %`
-    // Set disk bar
-});
+    // console.log(cpu)
+})
 
 //Operating System Information
 socket.on('osInfo', ({ osInfo, username }) => {
@@ -59,7 +72,7 @@ socket.on('cpuInfo', (cpuInfo) => {
 })
 
 socket.on('ramInfo', (ramInfo) => {
-    const total = Math.round(ramInfo.total / Math.pow(1024, 3)).toFixed(2)
+    const total = (ramInfo.total / Math.pow(1024, 3)).toFixed(2)
     ramtotal.innerHTML = `<span>Total: ${total} Gb</span>`
 })
 
