@@ -1,6 +1,9 @@
 const ramtotal = document.querySelector('.ramtotal');
 const labelRam = document.querySelector('.ram-label');
 const progRam = document.querySelector('.ram-bar');
+
+let ramData = new Array(61).fill(0);
+
 // RAM Information
 
 socket.on('ramInfo', ramInfo => {
