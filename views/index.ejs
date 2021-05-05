@@ -35,7 +35,6 @@
             <label class="cpu-label" for="cpu">CPU used: 0 %</label>
             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="cpuChart"></canvas>
-
         </div>
         <div class="one sys-info">
             <h3>RAM</h3>
@@ -53,15 +52,18 @@
             <div class="drivefree">Free: </div>
             <label class="drive-label" for="drive">Drive used: 0%</label>
             <progress class="drive-bar" id="drive" value="10" min='0' max='100'></progress>
+
         </div>
     </div>
     <footer>
         <span>Made By <a href="https://github.com/SpeedoMacMuffin/" target="_blank">Speedo MacMuffin</a></span>
     </footer>
-    <script src="/socket.io/socket.io.js" defer></script>
-    <script src="./js/main.js" defer></script>
-    <script>
-    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/socket.js"></script>
+    <script src="./js/cpu.js"></script>
+    <script src="./js/ram.js"></script>
+    <script src="./js/sys.js"></script>
+    <script src="./js/drive.js"></script>
 </body>
 
 </html>

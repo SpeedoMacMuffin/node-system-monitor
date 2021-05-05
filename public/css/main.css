@@ -12,18 +12,23 @@ body {
     border: 1px solid white;
     border-radius: 5px;
     padding: 1em;
+    min-width: 30vw;
+}
+
+progress.flex {
+    padding-bottom: 0;
 }
 
 
 /* For Firefox */
 
 progress::-moz-progress-bar {
-    background: green;
+    background: chartreuse;
 }
 
 
 /* For Chrome or Safari */
 
 progress::-webkit-progress-value {
-    background: green;
+    background: chartreuse;
 }
