@@ -5,14 +5,15 @@ const httpServer = http.createServer(app);
 const osUtils = require('node-os-utils');
 const os = require('os');
 const io = require('socket.io')(httpServer);
-const si = require('systeminformation')
+const si = require('systeminformation');
+const Chart = require('chart.js')
 
 // View Engine
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 // Route
-app.get('/', (req, res) => {
+app.get('/', (__, res) => {
     res.render('index.ejs');
 });
 
@@ -38,11 +39,11 @@ io.on('connection', socket => {
         let ram = osUtils.mem.info()
         osUtils.mem.info()
             .then(info => socket.emit('ramUsage', info))
-            .catch(error => console.error(error))
+            // .catch(error => console.error(error))
             // CPU usage in %
         cpu.usage()
             .then(cpu => socket.emit('cpuUsage', cpu))
-            .catch(error => console.error(error))
+            // .catch(error => console.error(error))
     }, 1000);
 
     // Emit OS information
