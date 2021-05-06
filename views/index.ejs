@@ -17,41 +17,67 @@
     </header>
 
 
-    <div class="flex">
-        <div class="one sys-info">
+    <div class="flex center">
+        <div class="sys-info">
             <h3>General Information</h3>
-            <div class="sysmod">Model: </div>
-            <div class="platform">Platform: </div>
-            <div class="os">OS:</div>
-            <div class="host">Hostname:</div>
-            <div class="user">User:</div>
+            <div class="sysmod">Model:
+                <%= sysInfo.model %>
+            </div>
+            <div class="platform">Platform:
+                <%= osInfo.platform.toUpperCase() %>
+            </div>
+            <div class="os">OS:
+                <%= osInfo.distro %>
+                    <%= osInfo.release %>
+            </div>
+            <div class="host">Hostname:
+                <%= osInfo.hostname %>
+            </div>
+            <div class="user">User:
+                <%= username %>
+            </div>
+
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>CPU</h3>
             <!-- CPU  -->
-            <div class="brand">Brand: </div>
-            <div class="speed">Speed: </div>
-            <div class="cores">Cores: </div>
+            <div class="brand">Brand:
+                <%= cpu.manufacturer %>
+                    <%= cpu.brand %>
+            </div>
+            <div class="speed">Speed:
+                <%= cpu.speed %> GHz
+            </div>
+            <div class="cores">Cores:
+                <%= cpu.cores %>
+            </div>
             <label class="cpu-label" for="cpu">CPU used: 0 %</label>
             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="cpuChart"></canvas>
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>RAM</h3>
             <!-- RAM  -->
-            <div class="ramtotal">Total: </div>
+            <div class="ramtotal">Total:
+                <%= ram %> Gb</div>
             <label class="ram-label" for="ram">RAM used: 0 %</label>
             <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="ramChart"></canvas>
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>Drive</h3>
             <!-- Drive  -->
-            <div class="drivetotal">Total: </div>
-            <div class="driveused">Used: </div>
-            <div class="drivefree">Free: </div>
-            <label class="drive-label" for="drive">Drive used: 0%</label>
-            <progress class="drive-bar" id="drive" value="10" min='0' max='100'></progress>
+            <div class="drivetotal">Total:
+                <%= drive.totalGb %> Gb
+            </div>
+            <div class="driveused">Used:
+                <%= drive.usedGb %> Gb
+            </div>
+            <div class="drivefree">Free:
+                <%= drive.freeGb %> Gb
+            </div>
+            <label class="drive-label" for="drive">Drive used: <%= drive.usedPercentage %> %</label>
+            <progress class="drive-bar" id="drive" value="<%=drive.usedPercentage %>" min='0' max='100'></progress>
 
         </div>
     </div>
@@ -60,10 +86,6 @@
     </footer>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/socket.js"></script>
-    <script src="./js/cpu.js"></script>
-    <script src="./js/ram.js"></script>
-    <script src="./js/sys.js"></script>
-    <script src="./js/drive.js"></script>
 </body>
 
 </html>
