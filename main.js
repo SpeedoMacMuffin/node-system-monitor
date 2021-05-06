@@ -5,31 +5,67 @@ const httpServer = http.createServer(app);
 const osUtils = require('node-os-utils');
 const os = require('os');
 const io = require('socket.io')(httpServer);
-const si = require('systeminformation')
+const si = require('systeminformation');
 
 // View Engine
-
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
-// Route
+// initiating variables for static information
 
-app.get('/', (req, res) => {
-    res.render('index.ejs');
-});
-
-// CPU
-
-const cpu = osUtils.cpu;
-
-// USER and OS
-
+// username
 const username = os.userInfo([{ encoding: 'buffer' }]).username;
 
+// drive information
+let drive = osUtils.drive.info().then(data => {
+    drive = data;
+});
 
+// cpu information
+let cpu = si
+    .cpu()
+    .then(data => {
+        cpu = data;
+    })
+    .catch(error => console.error(error));
 
-// SOCKET IO
+// ram information
+let ram = si
+    .mem()
+    .then(data => {
+        ram = (data.total / Math.pow(1024, 3)).toFixed(2); //converts initial value from Bytes to GigaBytes
+    })
+    .catch(error => console.error(error));
 
+// operating system information
+let osInfo = si
+    .osInfo()
+    .then(data => {
+        osInfo = data;
+    })
+    .catch(error => console.error(error));
+
+// system information
+let sysInfo = si
+    .system()
+    .then(data => {
+        sysInfo = data;
+    })
+    .catch(error => console.error(error));
+
+// Route
+app.get('/', (__, res) => {
+    res.render('index.ejs', {
+        username,
+        drive,
+        cpu,
+        ram,
+        osInfo,
+        sysInfo,
+    });
+});
+
+// SOCKET IO for dynamic value updates (cpu- & ram-usage)
 io.on('connection', socket => {
     console.log(`${socket.id} connected`);
     // Refresh monitor after 1s - send updated stats
@@ -37,39 +73,20 @@ io.on('connection', socket => {
         // RAM used (total - free)
         let ramUsed = Math.round(os.totalmem()) - Math.round(os.freemem());
         // RAM usage in %
-        let ram = (ramUsed * 100 / Math.round(os.totalmem())).toFixed(0);
+        osUtils.mem
+            .info()
+            .then(info => socket.emit('ramUsage', info))
+            .catch(error => console.error(error));
         // CPU usage in %
-        cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu }))
+        osUtils.cpu
+            .usage()
+            .then(cpu => socket.emit('cpuUsage', cpu))
+            .catch(error => console.error(error));
     }, 1000);
-
-    // Emit OS information
-    si.osInfo()
-        .then(osInfo => socket.emit('osInfo', { osInfo, username }))
-        .catch(error => console.error(error))
-
-    // Emit System information
-    si.system()
-        .then(sysData => socket.emit('sysInfo', sysData))
-        .catch(error => console.error(error));
-
-    // Emit CPU information
-    si.cpu()
-        .then(cpuInfo => socket.emit('cpuInfo', cpuInfo))
-        .catch(error => console.error(error));
-
-    // Emit RAM information
-    si.mem()
-        .then(ramInfo => socket.emit('ramInfo', ramInfo))
-        .catch(error => console.error(error))
-
-    // Emit Drive information
-    osUtils.drive.info()
-        .then(driveInfo => socket.emit('driveInfo', driveInfo))
-        .catch(error => console.error(error))
 });
 
 // Run the server
 const PORT = 3000;
 httpServer.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`);
 });

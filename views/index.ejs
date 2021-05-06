@@ -6,54 +6,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
     <link rel="stylesheet" href="./css/main.css">
     <title>Node System Monitor</title>
 </head>
 
 <body>
-    <h1>Node System Monitor</h1>
+    <header>
+        <h1>Node System Monitor</h1>
+    </header>
 
-    <div class="flex">
-        <div class="one sys-info">
+
+    <div class="flex center">
+        <div class="sys-info">
             <h3>General Information</h3>
-            <div class="sysmod">Model: </div>
-            <div class="platform">Network: </div>
-            <div class="os">...loading</div>
-            <div class="host">Hostname</div>
-            <div class="user"></div>
+            <div class="sysmod">Model:
+                <%= sysInfo.model %>
+            </div>
+            <div class="platform">Platform:
+                <%= osInfo.platform.toUpperCase() %>
+            </div>
+            <div class="os">OS:
+                <%= osInfo.distro %>
+                    <%= osInfo.release %>
+            </div>
+            <div class="host">Hostname:
+                <%= osInfo.hostname %>
+            </div>
+            <div class="user">User:
+                <%= username %>
+            </div>
+
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>CPU</h3>
             <!-- CPU  -->
-            <div class="brand">Brand: </div>
-            <div class="speed">Speed: </div>
-            <div class="cores">Cores: </div>
+            <div class="brand">Brand:
+                <%= cpu.manufacturer %>
+                    <%= cpu.brand %>
+            </div>
+            <div class="speed">Speed:
+                <%= cpu.speed %> GHz
+            </div>
+            <div class="cores">Cores:
+                <%= cpu.cores %>
+            </div>
             <label class="cpu-label" for="cpu">CPU used: 0 %</label>
             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
-
+            <canvas class="flex" id="cpuChart"></canvas>
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>RAM</h3>
             <!-- RAM  -->
-            <div class="ramtotal">Total: </div>
+            <div class="ramtotal">Total:
+                <%= ram %> Gb</div>
             <label class="ram-label" for="ram">RAM used: 0 %</label>
             <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
+            <canvas class="flex" id="ramChart"></canvas>
         </div>
-        <div class="one sys-info">
+        <div class="sys-info">
             <h3>Drive</h3>
             <!-- Drive  -->
-            <div class="drivetotal">Total: </div>
-            <div class="driveused">Used: </div>
-            <div class="drivefree">Free: </div>
-            <label class="drive-label" for="drive">Drive used: 0%</label>
-            <progress class="drive-bar" id="drive" value="10" min='0' max='100'></progress>
+            <div class="drivetotal">Total:
+                <%= drive.totalGb %> Gb
+            </div>
+            <div class="driveused">Used:
+                <%= drive.usedGb %> Gb
+            </div>
+            <div class="drivefree">Free:
+                <%= drive.freeGb %> Gb
+            </div>
+            <label class="drive-label" for="drive">Drive used: <%= drive.usedPercentage %> %</label>
+            <progress class="drive-bar" id="drive" value="<%=drive.usedPercentage %>" min='0' max='100'></progress>
+
         </div>
     </div>
     <footer>
         <span>Made By <a href="https://github.com/SpeedoMacMuffin/" target="_blank">Speedo MacMuffin</a></span>
     </footer>
-    <script src="/socket.io/socket.io.js" defer></script>
-    <script src="./js/main.js" defer></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/socket.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    width: 80%;
+    width: 90%;
     margin: auto;
     font-size: 1em;
     background-color: darkslategrey;
@@ -12,18 +12,19 @@ body {
     border: 1px solid white;
     border-radius: 5px;
     padding: 1em;
+    /* min-width: 30vw; */
 }
 
 
 /* For Firefox */
 
 progress::-moz-progress-bar {
-    background: green;
+    background: chartreuse;
 }
 
 
 /* For Chrome or Safari */
 
 progress::-webkit-progress-value {
-    background: green;
+    background: chartreuse;
 }
