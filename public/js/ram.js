@@ -9,7 +9,6 @@ let ramData = new Array(61).fill(0);
 socket.on('ramInfo', ramInfo => {
     const total = (ramInfo.total / Math.pow(1024, 3)).toFixed(2);
     ramtotal.innerHTML = `<span>Total: ${total} Gb</span>`;
-    console.log(total);
 });
 
 // ON RAM USAGE EVENT
@@ -39,9 +38,8 @@ socket.on('ramUsage', info => {
         },
         options: {
             events: [],
-            responsive: true,
+            responsive: false,
             animation: false,
-            responsive: true,
             scales: {
                 yAxes: [{
                     ticks: {
