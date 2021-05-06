@@ -6,7 +6,6 @@ const osUtils = require('node-os-utils');
 const os = require('os');
 const io = require('socket.io')(httpServer);
 const si = require('systeminformation');
-const Chart = require('chart.js');
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -17,12 +16,6 @@ app.get('/', (__, res) => {
     res.render('index.ejs');
 });
 
-// CPU
-const cpu = osUtils.cpu;
-
-// USER and OS
-const username = os.userInfo([{ encoding: 'buffer' }]).username;
-
 // SOCKET IO
 io.on('connection', socket => {
     console.log(`${socket.id} connected`);
@@ -31,19 +24,20 @@ io.on('connection', socket => {
         // RAM used (total - free)
         let ramUsed = Math.round(os.totalmem()) - Math.round(os.freemem());
         // RAM usage in %
-        let ram = osUtils.mem.info();
         osUtils.mem
             .info()
             .then(info => socket.emit('ramUsage', info))
             .catch(error => console.error(error));
         // CPU usage in %
-        cpu
+        osUtils.cpu
             .usage()
             .then(cpu => socket.emit('cpuUsage', cpu))
             .catch(error => console.error(error));
     }, 1000);
 
     // Emit OS information
+    // USER and OS
+    const username = os.userInfo([{ encoding: 'buffer' }]).username;
     si.osInfo()
         .then(osInfo => socket.emit('osInfo', { osInfo, username }))
         .catch(error => console.error(error));
