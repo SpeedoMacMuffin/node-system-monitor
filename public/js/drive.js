@@ -16,7 +16,3 @@ socket.on('driveInfo', driveInfo => {
     driveused.innerHTML = `<span>Used: ${driveInfo.usedGb} Gb</span>`;
     drivefree.innerHTML = `<span>Free: ${driveInfo.freeGb} Gb</span>`;
 });
-
-const data = 1;
-
-drivetotal.innerHTML = `<span>${data}</span>`;
