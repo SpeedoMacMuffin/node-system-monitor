@@ -11,12 +11,61 @@ const si = require('systeminformation');
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
-// Route
-app.get('/', (__, res) => {
-    res.render('index.ejs');
+// initiating variables for static information
+
+// username
+const username = os.userInfo([{ encoding: 'buffer' }]).username;
+
+// drive information
+let drive = osUtils.drive.info().then(data => {
+    drive = data;
 });
 
-// SOCKET IO
+// cpu information
+let cpu = si
+    .cpu()
+    .then(data => {
+        cpu = data;
+    })
+    .catch(error => console.error(error));
+
+// ram information
+let ram = si
+    .mem()
+    .then(data => {
+        ram = (data.total / Math.pow(1024, 3)).toFixed(2); //converts initial value from Bytes to GigaBytes
+    })
+    .catch(error => console.error(error));
+
+// operating system information
+let osInfo = si
+    .osInfo()
+    .then(data => {
+        osInfo = data;
+    })
+    .catch(error => console.error(error));
+
+// system information
+let sysInfo = si
+    .system()
+    .then(data => {
+        sysInfo = data;
+    })
+    .catch(error => console.error(error));
+
+// Route
+app.get('/', (__, res) => {
+    res.render('index.ejs', {
+        username,
+        drive,
+        cpu,
+        ram,
+        osInfo,
+        sysInfo,
+    });
+});
+
+// SOCKET IO for dynamic value updates (cpu- & ram-usage)
 io.on('connection', socket => {
     console.log(`${socket.id} connected`);
     // Refresh monitor after 1s - send updated stats
@@ -34,34 +83,6 @@ io.on('connection', socket => {
             .then(cpu => socket.emit('cpuUsage', cpu))
             .catch(error => console.error(error));
     }, 1000);
-
-    // Emit OS information
-    // USER and OS
-    const username = os.userInfo([{ encoding: 'buffer' }]).username;
-    si.osInfo()
-        .then(osInfo => socket.emit('osInfo', { osInfo, username }))
-        .catch(error => console.error(error));
-
-    // Emit System information
-    si.system()
-        .then(sysData => socket.emit('sysInfo', sysData))
-        .catch(error => console.error(error));
-
-    // Emit CPU information
-    si.cpu()
-        .then(cpuInfo => socket.emit('cpuInfo', cpuInfo))
-        .catch(error => console.error(error));
-
-    // Emit RAM information
-    si.mem()
-        .then(ramInfo => socket.emit('ramInfo', ramInfo))
-        .catch(error => console.error(error));
-
-    // Emit Drive information
-    osUtils.drive
-        .info()
-        .then(driveInfo => socket.emit('driveInfo', driveInfo))
-        .catch(error => console.error(error));
 });
 
 // Run the server
