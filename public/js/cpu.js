@@ -5,13 +5,6 @@ const labelCpu = document.querySelector('.cpu-label');
 const progCpu = document.querySelector('.cpu-bar');
 
 let cpuData = new Array(61).fill(0);
-const array_range = (start, len) => {
-    const arr = new Array(len);
-    for (let i = 0; i < len; i++, start++) {
-        arr[i] = start;
-    }
-    return arr;
-};
 
 // CPU Information
 socket.on('cpuInfo', cpuInfo => {
