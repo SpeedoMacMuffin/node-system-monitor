@@ -15,5 +15,3 @@ socket.on('osInfo', ({ osInfo, username }) => {
 socket.on('sysInfo', sysData => {
     model.innerHTML = `<span>Model: ${sysData.model}</span>`;
 });
-
-module.exports = sys;
