@@ -32,9 +32,9 @@ socket.on('cpuUsage', cpu => {
 
     // adds new value at the end & deletes first element from cpuAvgData-array
 
-    cpuAvgData.push(cpuLoad);
+    cpuAvgData.unshift(cpuLoad);
     if (cpuAvgData.length > 61) {
-        cpuAvgData.shift();
+        cpuAvgData.pop();
     }
 
     const cpuChart = document.getElementById('cpuChart').getContext('2d');
@@ -75,9 +75,9 @@ socket.on('ramUsage', ram => {
     // Set Ram bar
     progRam.value = ramUsed;
     // adds new value at the end & deletes first element from ramData-array
-    ramData.push(ramUsed);
+    ramData.unshift(ramUsed);
     if (ramData.length > 61) {
-        ramData.shift();
+        ramData.pop();
     }
 
     const ramChart = document.getElementById('ramChart').getContext('2d');
