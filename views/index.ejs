@@ -18,6 +18,7 @@
 
 
     <div class="flex center">
+        <!-- General Information -->
         <div class="sys-info">
             <h3>General Information</h3>
             <div class="sysmod">Model:
@@ -38,9 +39,10 @@
             </div>
 
         </div>
+        <!-- CPU Information -->
         <div class="sys-info">
             <h3>CPU</h3>
-            <!-- CPU  -->
+
             <div class="brand">Processor:
                 <%= cpu.manufacturer %>
                     <%= cpu.brand %>
@@ -55,18 +57,20 @@
             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="cpuChart"></canvas>
         </div>
+        <!-- RAM Information -->
         <div class="sys-info">
             <h3>RAM</h3>
-            <!-- RAM  -->
             <div class="ramtotal">Total:
                 <%= ram.total %> Gb</div>
             <label class="ram-label" for="ram">RAM used: 0 %</label>
             <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="ramChart"></canvas>
         </div>
+
+        <!-- Drive Information -->
         <div class="sys-info">
             <h3>Drive</h3>
-            <!-- Drive  -->
+
 
             <div class="drivetotal">Total:
                 <%= drives[0].total %> Gb
