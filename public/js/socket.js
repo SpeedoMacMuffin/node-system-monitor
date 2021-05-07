@@ -1,7 +1,7 @@
 // SOCKET IO
 const socket = io();
 
-// default label for charts (0 - 60)
+// default label values for charts
 const array_range = (start, len) => {
     const arr = new Array(len);
     for (let i = 0; i < len; i++, start++) {
@@ -17,30 +17,34 @@ const labelRam = document.querySelector('.ram-label');
 const progRam = document.querySelector('.ram-bar');
 
 // Default chart-data for cpu & ram on load
-let cpuData = new Array(61).fill(0);
+let cpuAvgData = new Array(61).fill(0);
 let ramData = new Array(61).fill(0);
 
-// update cpu-values and create/update Chart
+// update cpu-values and create/update chart
 socket.on('cpuUsage', cpu => {
-    // Set cpu label
-    labelCpu.innerHTML = `<span>CPU used: ${cpu} %</span>`;
-    // Set cpu bar
-    progCpu.value = cpu;
+    // Set average cpu-load
+    let cpuLoad = cpu;
 
-    // adds new value at the end & deletes first element from cpuData-array
-    cpuData.push(cpu);
-    if (cpuData.length > 61) {
-        cpuData.shift();
+    // Set cpu label
+    labelCpu.innerHTML = `<span>CPU used: ${cpuLoad.toFixed(2)} %</span>`;
+    // Set cpu bar
+    progCpu.value = cpuLoad;
+
+    // adds new value at the end & deletes first element from cpuAvgData-array
+
+    cpuAvgData.push(cpuLoad);
+    if (cpuAvgData.length > 61) {
+        cpuAvgData.shift();
     }
 
     const cpuChart = document.getElementById('cpuChart').getContext('2d');
-    let myCpuChart = new Chart(cpuChart, {
+    new Chart(cpuChart, {
         type: 'line',
         data: {
             labels: array_range(0, 61),
             datasets: [{
                 label: 'CPU Usage in %',
-                data: cpuData,
+                data: cpuAvgData,
                 borderColor: 'chartreuse',
                 borderWidth: '1',
                 radius: '1',
@@ -63,20 +67,21 @@ socket.on('cpuUsage', cpu => {
 });
 
 // update ram-values and create/update Chart
-socket.on('ramUsage', info => {
+socket.on('ramUsage', ram => {
     // Set ram label
-    usedMemRel = (100 - info.freeMemPercentage).toFixed(2);
-    labelRam.innerHTML = `<span>RAM used: ${usedMemRel} % </span>`;
+    const ramUsed = ((ram.used / ram.total) * 100).toFixed(2);
+
+    labelRam.innerHTML = `<span>RAM used: ${ramUsed} % </span>`;
     // Set Ram bar
-    progRam.value = usedMemRel;
+    progRam.value = ramUsed;
     // adds new value at the end & deletes first element from ramData-array
-    ramData.push(usedMemRel);
+    ramData.push(ramUsed);
     if (ramData.length > 61) {
         ramData.shift();
     }
 
     const ramChart = document.getElementById('ramChart').getContext('2d');
-    let myRamChart = new Chart(ramChart, {
+    new Chart(ramChart, {
         type: 'line',
         data: {
             labels: array_range(0, 61),
