@@ -41,7 +41,7 @@
         <div class="sys-info">
             <h3>CPU</h3>
             <!-- CPU  -->
-            <div class="brand">Brand:
+            <div class="brand">Processor:
                 <%= cpu.manufacturer %>
                     <%= cpu.brand %>
             </div>
@@ -59,7 +59,7 @@
             <h3>RAM</h3>
             <!-- RAM  -->
             <div class="ramtotal">Total:
-                <%= ram %> Gb</div>
+                <%= ram.total %> Gb</div>
             <label class="ram-label" for="ram">RAM used: 0 %</label>
             <progress class="ram-bar" id="ram" value="10" min='0' max='100'></progress>
             <canvas class="flex" id="ramChart"></canvas>
@@ -67,17 +67,18 @@
         <div class="sys-info">
             <h3>Drive</h3>
             <!-- Drive  -->
+
             <div class="drivetotal">Total:
-                <%= drive.totalGb %> Gb
+                <%= drives[0].total %> Gb
             </div>
             <div class="driveused">Used:
-                <%= drive.usedGb %> Gb
+                <%= drives[0].used %> Gb
             </div>
             <div class="drivefree">Free:
-                <%= drive.freeGb %> Gb
+                <%= drives[0].available %> Gb
             </div>
-            <label class="drive-label" for="drive">Drive used: <%= drive.usedPercentage %> %</label>
-            <progress class="drive-bar" id="drive" value="<%=drive.usedPercentage %>" min='0' max='100'></progress>
+            <label class="drive-label" for="drive">Drive used: <%= drives[0].use %> %</label>
+            <progress class="drive-bar" id="drive" value="<%= drives[0].use %>" min='0' max='100'></progress>
 
         </div>
     </div>
