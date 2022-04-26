@@ -20,7 +20,7 @@
     "homepage": "https://github.com/SpeedoMacMuffin/node-system-monitor#readme",
     "dependencies": {
         "chart.js": "^3.2.1",
-        "ejs": "^3.1.6",
+        "ejs": "^3.1.7",
         "express": "^4.17.1",
         "socket.io": "^4.0.1",
         "systeminformation": "^5.6.12"
